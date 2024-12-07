@@ -1,11 +1,11 @@
+import { thunk } from "redux-thunk";
 import authReducer from "./auth/reducer";
-const {
+import {
   combineReducers,
   compose,
-  createStore,
+  legacy_createStore as createStore,
   applyMiddleware,
-} = require("redux");
-const { thunk } = require("redux-thunk");
+} from "redux";
 
 const composerEnhancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

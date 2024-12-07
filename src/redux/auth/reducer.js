@@ -7,7 +7,7 @@ let initialState = localStorage.getItem("auth")
       role: null,
     };
 
-export default function authReducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case USER_LOGIN:
       return {
