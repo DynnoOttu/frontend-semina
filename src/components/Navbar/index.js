@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import NavLink from "../NavLink";
+import NavLink from "../NavAccess";
 import { useNavigate } from "react-router";
 
 export default function MyNavbar() {
   const navigate = useNavigate();
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchRole = () => {
+      let { role } = localStorage.getItem("auth")
+        ? JSON.parse(localStorage.getItem("auth"))
+        : {};
+
+      setRole(role);
+    };
+
+    fetchRole();
+  }, []);
 
   return (
     <Navbar bg="dark" data-bs-theme="dark">

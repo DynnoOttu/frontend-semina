@@ -32,7 +32,7 @@ export default function MyForm({ form, handleChange, handleSubmit, loading }) {
         variant="info"
         action={handleSubmit}
       >
-        Daftar
+        Login
       </MyButton>
     </Form>
   );
