@@ -53,7 +53,6 @@ function CategoryCreate() {
 
   return (
     <>
-      <MyNavbar />
       <div className="mt-3">
         <Container>
           <MyBreadCrumb

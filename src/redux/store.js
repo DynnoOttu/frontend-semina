@@ -1,5 +1,6 @@
 import { thunk } from "redux-thunk";
 import authReducer from "./auth/reducer";
+import categoriesReducer from "./categories/reducer";
 import {
   combineReducers,
   compose,
@@ -12,6 +13,7 @@ const composerEnhancers =
 
 const rootReducers = combineReducers({
   auth: authReducer,
+  categories: categoriesReducer,
 });
 
 const store = createStore(

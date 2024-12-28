@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import NavLink from "../NavAccess";
 import { useNavigate } from "react-router";
+import {
+  accessCategories,
+  accessOrders,
+  accessParticipant,
+  accessPayments,
+  accessTalents,
+} from "../../const";
 
 export default function MyNavbar() {
   const navigate = useNavigate();
@@ -19,26 +26,75 @@ export default function MyNavbar() {
     fetchRole();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
+
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
         <Navbar.Brand href="#home">MyEvent</Navbar.Brand>
         <Nav className="me-auto">
-          <NavLink action={() => navigate("/")} children="Home" />
           <NavLink
+            role={role}
+            roles={accessCategories.lihat}
+            action={() => navigate("/")}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            role={role}
+            roles={accessCategories.lihat}
             action={() => navigate("/categories")}
-            children="Categories"
-          />
-          <NavLink action={() => navigate("/talents")} children="Talents" />
-          <NavLink action={() => navigate("/event")} children="Event" />
+          >
+            Categories
+          </NavLink>
           <NavLink
-            action={() => navigate("/participants")}
-            children="Participants"
-          />
+            role={role}
+            roles={accessTalents.lihat}
+            action={() => navigate("/talents")}
+          >
+            Talents
+          </NavLink>
           <NavLink
-            action={() => navigate("/transactions")}
-            children="Transactions"
-          />
+            role={role}
+            roles={accessPayments.lihat}
+            action={() => navigate("/payments")}
+          >
+            Payment
+          </NavLink>
+          {/* <NavLink
+            role={role}
+            roles={organizers.lihat}
+            action={() => navigate('/organizers')}
+          >
+            Oranizer
+          </NavLink> */}
+          {/* <NavLink
+            role={role}
+            roles={accessEvents.lihat}
+            action={() => navigate("/events")}
+          >
+            Events
+          </NavLink> */}
+          <NavLink
+            role={role}
+            roles={accessParticipant.lihat}
+            action={() => navigate("/participant")}
+          >
+            Participant
+          </NavLink>
+          <NavLink
+            role={role}
+            roles={accessOrders.lihat}
+            action={() => navigate("/orders")}
+          >
+            Orders
+          </NavLink>
+        </Nav>
+        <Nav className="d-flex justify-content-end">
+          <Nav.Link onClick={() => handleLogout()}>Logout</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

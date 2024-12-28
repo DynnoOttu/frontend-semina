@@ -1,79 +1,61 @@
 import React, { useEffect, useState } from "react";
-import { Container, Spinner, Table } from "react-bootstrap";
-import { Navigate, useNavigate } from "react-router";
+import { Container } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import MyBreadCrumb from "../../components/Breadcrumb";
 import MyButton from "../../components/Button";
-import MyNavbar from "../../components/Navbar";
-import axios from "axios";
-import { config } from "../../configs";
+import { accessCategories } from "../../const";
+import { fetchCategories } from "../../redux/categories/actions";
 
 export default function PageCategories() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const getCategoriesApi = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(`${config.api_host_dev}/cms/categories`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setData(res.data.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
+  const notif = useSelector((state) => state.notif);
+  const categories = useSelector((state) => state.categories);
+
+  const [access, setAccess] = useState({
+    tambah: false,
+    hapus: false,
+    edit: false,
+  });
+  const checkAccess = () => {
+    let { role } = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth"))
+      : {};
+    const access = { tambah: false, hapus: false, edit: false };
+    Object.keys(accessCategories).forEach(function (key, index) {
+      if (accessCategories[key].indexOf(role) >= 0) {
+        access[key] = true;
+      }
+    });
+    setAccess(access);
   };
 
   useEffect(() => {
-    getCategoriesApi();
+    checkAccess();
   }, []);
 
-  if (!token) {
-    return <Navigate to="/signin" replace={true} />;
-  }
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   return (
-    <>
-      <MyNavbar />
-      <Container>
-        <div className="mt-4">
-          <MyBreadCrumb textSecound="Categories" />
-          <MyButton action={() => navigate("/categories/create")}>
-            Tambah
-          </MyButton>
-          <Table className="mt-3" striped bordered hover variant="dark">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name Organizer</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr>
-                  <td colSpan={data.length + 1} className="text-center">
-                    <Spinner animation="grow" variant="info" />
-                  </td>
-                </tr>
-              ) : (
-                data.map((item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.name}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </Table>
-        </div>
-      </Container>
-    </>
+    <Container className="mt-4">
+      <MyBreadCrumb textSecound={"Categories"} />
+
+      {access.tambah && (
+        <MyButton
+          className={"mb-3"}
+          action={() => navigate("/categories/create")}
+        >
+          Tambah
+        </MyButton>
+      )}
+
+      {/* {notif.status && (
+        <MyAlert type={notif.type} message={notif.message} />
+      )} */}
+    </Container>
   );
 }

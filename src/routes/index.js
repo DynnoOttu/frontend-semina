@@ -4,6 +4,7 @@ import PageSignin from "../pages/auth/signin";
 import MyNavbar from "../components/Navbar";
 import GuardRoute from "../components/GuardRoute";
 import { HomeRoute } from "./HomeRoute";
+import { CategoriesRoute } from "./categoriesRoute";
 
 export function AppRouters() {
   return (
@@ -26,6 +27,7 @@ export function AppRouters() {
         }
       >
         <Route path="dashboard/*" element={<HomeRoute />} />
+        <Route path="categories/*" element={<CategoriesRoute />} />
         <Route path="" element={<Navigate to="/dashboard" replace={true} />} />
       </Route>
     </Routes>
