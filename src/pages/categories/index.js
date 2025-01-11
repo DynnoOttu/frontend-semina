@@ -6,6 +6,7 @@ import MyBreadCrumb from "../../components/Breadcrumb";
 import MyButton from "../../components/Button";
 import { accessCategories } from "../../const";
 import { fetchCategories } from "../../redux/categories/actions";
+import TableWithAction from "../../components/TableWithAction";
 
 export default function PageCategories() {
   const navigate = useNavigate();
@@ -52,6 +53,16 @@ export default function PageCategories() {
           Tambah
         </MyButton>
       )}
+
+      <TableWithAction
+        status={categories.status}
+        thead={["Nama", "Aksi"]}
+        data={categories.data}
+        tbody={["name"]}
+        editUrl={access.edit ? `/categories/edit` : null}
+        deleteAction={true}
+        withoutPagination
+      />
 
       {/* {notif.status && (
         <MyAlert type={notif.type} message={notif.message} />
