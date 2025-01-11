@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import MyBreadCrumb from "../../components/Breadcrumb";
 import MyAlert from "../../components/Alert";
+import MyBreadCrumb from "../../components/Breadcrumb";
+import { postData } from "../../utils/fetch";
 import CategoryForm from "./form";
-import { config } from "../../configs";
-import axios from "axios";
-import MyNavbar from "../../components/Navbar";
+import { setNotif } from "../../redux/notif/actions";
 
 function CategoryCreate() {
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -33,11 +33,16 @@ function CategoryCreate() {
   const handleSubmit = async (e) => {
     setLoading(true);
     try {
-      await axios.post(`${config.api_host_dev}/cms/categories`, form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await postData(`/cms/categories`, form);
+      if (res.data.data) {
+        dispatch(
+          setNotif(
+            true,
+            `success`,
+            `Berhasil Menambahkann ${res.data.data.name}`
+          )
+        );
+      }
       navigate("/categories");
       setLoading(false);
     } catch (error) {

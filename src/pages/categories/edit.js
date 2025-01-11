@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import MyBreadCrumb from "../../components/Breadcrumb";
 import CategoryForm from "./form";
 import MyAlert from "../../components/Alert";
+import { getData } from "../../utils/fetch";
 
 function CategoryEdit() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ function CategoryEdit() {
   const [form, setForm] = useState({
     name: "",
   });
+
   const [alert, setAlert] = useState({
     status: false,
     message: "",
@@ -26,7 +28,10 @@ function CategoryEdit() {
     });
   };
 
-  const fetchOneCategories = async () => {};
+  const fetchOneCategories = async () => {
+    const res = await getData(`/cms/categories/${categoryId}`);
+    setForm({ ...form, name: res.data.data.name });
+  };
 
   useEffect(() => {
     fetchOneCategories();

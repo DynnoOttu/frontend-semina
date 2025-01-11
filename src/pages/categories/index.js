@@ -7,6 +7,8 @@ import MyButton from "../../components/Button";
 import { accessCategories } from "../../const";
 import { fetchCategories } from "../../redux/categories/actions";
 import TableWithAction from "../../components/TableWithAction";
+import { ToastContainer, toast } from "react-toastify";
+import { clearNotif } from "../../redux/notif/actions";
 
 export default function PageCategories() {
   const navigate = useNavigate();
@@ -38,6 +40,12 @@ export default function PageCategories() {
   }, []);
 
   useEffect(() => {
+    if (notif.status) {
+      toast(notif.message, { type: notif.typeNotif });
+    }
+  }, [notif, dispatch]);
+
+  useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
@@ -64,9 +72,7 @@ export default function PageCategories() {
         withoutPagination
       />
 
-      {/* {notif.status && (
-        <MyAlert type={notif.type} message={notif.message} />
-      )} */}
+      {notif.status && <ToastContainer />}
     </Container>
   );
 }
