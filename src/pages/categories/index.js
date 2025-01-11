@@ -41,9 +41,15 @@ export default function PageCategories() {
 
   useEffect(() => {
     if (notif.status) {
-      toast(notif.message, { type: notif.typeNotif });
+      toast(notif.message, {
+        type: notif.typeNotif,
+        onClose: () => {
+          // Callback ketika toast selesai
+          dispatch(clearNotif()); // Reset status menjadi false
+        },
+      });
     }
-  }, [notif, dispatch]);
+  }, [notif.status]);
 
   useEffect(() => {
     dispatch(fetchCategories());

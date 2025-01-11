@@ -5,10 +5,13 @@ import { useNavigate, useParams } from "react-router";
 import MyBreadCrumb from "../../components/Breadcrumb";
 import CategoryForm from "./form";
 import MyAlert from "../../components/Alert";
-import { getData } from "../../utils/fetch";
+import { getData, putData } from "../../utils/fetch";
+import { useDispatch } from "react-redux";
+import { setNotif } from "../../redux/notif/actions";
 
 function CategoryEdit() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { categoryId } = useParams();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -40,6 +43,13 @@ function CategoryEdit() {
   const handleSubmit = async (e) => {
     setLoading(true);
     try {
+      const res = await putData(`/cms/categories/${categoryId}`, form);
+      if (res.data.data) {
+        dispatch(
+          setNotif(true, `success`, `Berhasil Mengubah ${res.data.data.name}`)
+        );
+      }
+      setLoading(false);
       navigate("/categories");
     } catch (error) {
       setLoading(false);
