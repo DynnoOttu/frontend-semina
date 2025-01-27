@@ -54,5 +54,7 @@ export async function deleteData(url) {
         Authorization: `Bearer ${token}`,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log("hasil error", error);
+  }
 }

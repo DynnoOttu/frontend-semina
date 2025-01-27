@@ -5,6 +5,7 @@ import MyNavbar from "../components/Navbar";
 import GuardRoute from "../components/GuardRoute";
 import { HomeRoute } from "./HomeRoute";
 import { CategoriesRoute } from "./categoriesRoute";
+import PageTalents from "../pages/talents";
 
 export function AppRouters() {
   return (
@@ -28,6 +29,7 @@ export function AppRouters() {
       >
         <Route path="dashboard/*" element={<HomeRoute />} />
         <Route path="categories/*" element={<CategoriesRoute />} />
+        <Route path="talents/*" element={<PageTalents />} />
         <Route path="" element={<Navigate to="/dashboard" replace={true} />} />
       </Route>
     </Routes>

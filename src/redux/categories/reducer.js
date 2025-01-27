@@ -16,10 +16,7 @@ const initialState = {
   status: statuslist.idle,
 };
 
-console.log("inisial state", initialState);
-
 export default function reducer(state = initialState, action) {
-  console.log("action", action);
   switch (action.type) {
     case START_FETCHING_CATEGORIES:
       return { ...state, status: statuslist.process };

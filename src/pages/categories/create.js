@@ -46,6 +46,7 @@ function CategoryCreate() {
       navigate("/categories");
       setLoading(false);
     } catch (error) {
+      console.log("cek error", error);
       setLoading(false);
       setAlert({
         ...alert,
