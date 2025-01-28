@@ -4,15 +4,18 @@ import MyBreadCrumb from "../../components/Breadcrumb";
 import { accessTalents } from "../../const";
 import MyButton from "../../components/Button";
 import { useNavigate } from "react-router";
-import { fetchTalents } from "../../redux/talents/action";
+import { fetchTalents, setKeyword } from "../../redux/talents/action";
 import { useDispatch, useSelector } from "react-redux";
 import TableWithAction from "../../components/TableWithAction";
+import SearchInput from "../../components/InputSearch";
+import MyAlert from "../../components/Alert";
 
 export default function PageTalents() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const talents = useSelector((state) => state.talents);
+  const notif = useSelector((state) => state.notif);
 
   const [access, setAccess] = useState({
     tambah: false,
@@ -27,7 +30,6 @@ export default function PageTalents() {
     const access = { tambah: false, hapus: false, edit: false };
 
     Object.keys(accessTalents).forEach(function (key, index) {
-      console.log("cek key", key);
       if (accessTalents[key].indexOf(role) >= 0) {
         access[key] = true;
       }
@@ -46,7 +48,7 @@ export default function PageTalents() {
 
   useEffect(() => {
     dispatch(fetchTalents());
-  }, []);
+  }, [dispatch, talents.keyword]);
 
   return (
     <Container className="mt-4">
@@ -61,6 +63,15 @@ export default function PageTalents() {
           Tambah
         </MyButton>
       )}
+
+      {notif.status && (
+        <MyAlert type={notif.typeNotif} message={notif.message} />
+      )}
+
+      <SearchInput
+        placeholder={"Search Talents"}
+        handleChange={(e) => dispatch(setKeyword(e.target.value))}
+      />
 
       <TableWithAction
         status={talents.status}

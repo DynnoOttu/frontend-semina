@@ -1,5 +1,6 @@
 import {
   ERROR_FETCHING_TALENTS,
+  SET_KEYWORD,
   START_FETCHING_TALENTS,
   SUCCESS_FETCHING_TALENTS,
 } from "./constans";
@@ -13,6 +14,7 @@ const statusList = {
 
 const initialState = {
   data: [],
+  keyword: "",
   status: statusList.idle,
 };
 
@@ -27,6 +29,13 @@ export default function reducer(state = initialState, action) {
       };
     case SUCCESS_FETCHING_TALENTS:
       return { ...state, status: statusList.success, data: action.talents };
+
+    case SET_KEYWORD:
+      return {
+        ...state,
+        keyword: action.keyword,
+      };
+
     default:
       return state;
   }

@@ -2,6 +2,7 @@ import debounce from "debounce-promise";
 import { getData } from "../../utils/fetch";
 import {
   ERROR_FETCHING_TALENTS,
+  SET_KEYWORD,
   START_FETCHING_TALENTS,
   SUCCESS_FETCHING_TALENTS,
 } from "./constans";
@@ -28,7 +29,7 @@ export const errorFetchingTalents = () => {
 };
 
 export const fetchTalents = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingTalents());
 
     try {
@@ -36,8 +37,11 @@ export const fetchTalents = () => {
       //   dispatch(clearNotif());
       // }, 3000);
 
-      let res = await debouncedFetchTalents("/cms/talents");
-      console.log("res reduex talents", res);
+      let params = {
+        keyword: getState().talents.keyword,
+      };
+
+      let res = await debouncedFetchTalents("/cms/talents", params);
 
       res.data.data.forEach((res) => {
         res.avatar = res.image.name;
@@ -51,5 +55,12 @@ export const fetchTalents = () => {
     } catch (error) {
       dispatch(errorFetchingTalents());
     }
+  };
+};
+
+export const setKeyword = (keyword) => {
+  return {
+    type: SET_KEYWORD,
+    keyword,
   };
 };

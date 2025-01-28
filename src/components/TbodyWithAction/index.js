@@ -39,7 +39,7 @@ function TbodyWithAction({
                             height={40}
                             width={40}
                             roundedCircle
-                            src={`${config.api_image}/${data[key]}`}
+                            src={`${config.api_image_dev}/${data[key]}`}
                           />
                         ) : key === "date" ? (
                           moment(data[key]).format("DD-MM-YYYY, h:mm:ss a")
