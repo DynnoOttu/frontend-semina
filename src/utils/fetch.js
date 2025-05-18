@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "../configs";
+import { json } from "react-router";
 
 export async function getData(url, params) {
   try {

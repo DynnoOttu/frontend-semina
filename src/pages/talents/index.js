@@ -78,7 +78,7 @@ export default function PageTalents() {
         thead={["Name", "Role", "Image", "Aksi"]}
         data={talents.data}
         tbody={["name", "role", "avatar"]}
-        editUrl={access.edit && "/talents/edit"}
+        editUrl={access.edit ? "/talents/edit" : null}
         deleteAction={access.hapus ? (id) => handleDelete(id) : null}
         withoutPagination
       />
