@@ -10,6 +10,11 @@ export default function TalentsForm({
   loading,
   edit,
 }) {
+  console.log("cek form", form);
+  console.log(
+    "${config.api_image_dev}${form.image}",
+    `${config.api_image_dev}${form.image}`
+  );
   return (
     <Form>
       <TextInputWithLabel

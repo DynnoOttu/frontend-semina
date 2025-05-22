@@ -16,7 +16,7 @@ function TalentsEdit() {
     name: "",
     role: "",
     file: "",
-    avatar: "",
+    image: "",
   });
 
   const [alert, setAlert] = useState({
@@ -29,12 +29,11 @@ function TalentsEdit() {
 
   const fetchOneCategories = async () => {
     const res = await getData(`/cms/talents/${talentId}`);
-
     setForm({
       ...form,
       name: res.data.data.name,
       role: res.data.data.role,
-      avatar: res.data.data.image.name,
+      image: res.data.data.image.name,
       file: res.data.data.image._id,
     });
   };
@@ -46,13 +45,14 @@ function TalentsEdit() {
 
   const uploadImage = async (file) => {
     let formData = new FormData();
-    formData.append("avatar", file);
-    const res = await postData("/cms/images", formData, true);
+    formData.append("image", file);
+    const res = await postData("/cms/upload-image", formData, true);
     return res;
   };
 
   const handleChange = async (e) => {
-    if (e.target.name === "avatar") {
+    console.log("Masuk handleChange");
+    if (e.target.name === "image") {
       if (
         e?.target?.files[0]?.type === "image/jpg" ||
         e?.target?.files[0]?.type === "image/png" ||
@@ -74,7 +74,6 @@ function TalentsEdit() {
           });
         } else {
           const res = await uploadImage(e.target.files[0]);
-
           setForm({
             ...form,
             file: res.data.data._id,
@@ -111,7 +110,7 @@ function TalentsEdit() {
     const res = await putData(`/cms/talents/${talentId}`, payload);
     if (res?.data?.data) {
       dispatch(
-        setNotif(true, "success", `berhasil ubah speaker ${res.data.data.name}`)
+        setNotif(true, "success", `Berhasil Ubah Talent ${res.data.data.name}`)
       );
       navigate("/talents");
       setIsLoading(false);
